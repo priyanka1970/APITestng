@@ -17,6 +17,38 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      # ────────────────────────────────────────────────────────────────────────
+      # 1) Set up Python and FastAPI service
+      # ────────────────────────────────────────────────────────────────────────
+      - name: Set up Python 3.x
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install FastAPI & Uvicorn
+        run: |
+          python -m pip install --upgrade pip
+          pip install fastapi uvicorn
+
+      - name: Launch FastAPI (uvicorn) in background
+        run: |
+          # assume your fastapi_app/main.py is at fastapi_app/main.py
+          nohup uvicorn fastapi_app.main:app --host 0.0.0.0 --port 8000 --reload > server.log 2>&1 &
+          # wait until /health returns 200
+          for i in {1..10}; do
+            status=$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:8000/health) || true
+            if [ "$status" = "200" ]; then
+              echo "FastAPI is up!"
+              break
+            fi
+            echo "Waiting for FastAPI... ($i)"
+            sleep 2
+          done
+          curl http://127.0.0.1:8000/health
+
+      # ────────────────────────────────────────────────────────────────────────
+      # 2) Set up Java and build/test
+      # ────────────────────────────────────────────────────────────────────────
       - name: Set up JDK 8
         uses: actions/setup-java@v3
         with:
@@ -32,6 +64,9 @@ jobs:
       - name: Run API Tests
         run: mvn clean test
 
+      # ────────────────────────────────────────────────────────────────────────
+      # 3) Allure report
+      # ────────────────────────────────────────────────────────────────────────
       - name: Install Allure CLI
         run: |
           sudo apt-get update
