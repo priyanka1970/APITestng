@@ -24,7 +24,7 @@ jobs:
           java-version: '8'
 
       - name: Install Maven Dependencies
-        run: mvn clean install
+        run: mvn clean install -X
 
       - name: Run API Tests
         run: mvn clean test
