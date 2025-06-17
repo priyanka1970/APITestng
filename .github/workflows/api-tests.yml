@@ -11,7 +11,7 @@ on:
 
 jobs:
   test:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
@@ -28,6 +28,16 @@ jobs:
 
       - name: Run API Tests
         run: mvn clean test
+
+      - name: Install Allure CLI
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget unzip
+          wget https://github.com/allure-framework/allure2/releases/latest/download/allure-2.27.0.zip
+          unzip allure-2.27.0.zip -d allure
+          sudo mv allure/allure-2.27.0 /opt/allure
+          sudo ln -s /opt/allure/bin/allure /usr/bin/allure
+          allure --version
 
       - name: Generate Allure Report
         run: allure generate target/allure-results --clean -o test-output/allure-report
