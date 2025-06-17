@@ -15,7 +15,7 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Set up JDK 8
         uses: actions/setup-java@v3
@@ -43,7 +43,7 @@ jobs:
         run: allure generate target/allure-results --clean -o test-output/allure-report
 
       - name: Upload Allure Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: allure-report
           path: test-output/allure-report
