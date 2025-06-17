@@ -23,8 +23,11 @@ jobs:
           distribution: 'temurin'
           java-version: '8'
 
-      - name: Install Maven Dependencies
-        run: mvn clean install -X
+      - name: Compile Project (skip tests)
+        run: mvn clean compile -DskipTests
+
+      - name: Run Unit Tests
+        run: mvn test -X
 
       - name: Run API Tests
         run: mvn clean test
