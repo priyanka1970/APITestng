@@ -67,6 +67,11 @@ mvn clean test -Dtest=runners.TestRunner
 ```
 
 ---
+### 🟢 To start FastAPI manually
+```bash
+uvicorn fastapi_app.main:app --reload
+```
+
 
 ## 📊 Reports
 

@@ -8,7 +8,6 @@ Feature: Bookstore API Operations
 
     @Signup
   Scenario: User Signup
-#    Given I send a POST request to "/signup" with email "" and password ""
     Given I send a POST request to "/signup"
     Then the response status should be 200
 
@@ -40,7 +39,7 @@ Feature: Bookstore API Operations
     Given I send a POST request to "/login"
     Then the response status should be 200
     And I save the access token
-    And I send a PUT request to "/books/2" with new name "Updated new Book", author "Updated new Author", published_year 2026, and book_summary "Updated new content."
+    And I send a PUT request to "/books/1" with new name "Updated new Book", author "Updated new Author", published_year 2026, and book_summary "Updated new content."
     Then the response status should be 200
 
   @delete
@@ -48,5 +47,5 @@ Feature: Bookstore API Operations
     Given I send a POST request to "/login"
     Then the response status should be 200
     And I save the access token
-    And I send a DELETE request to "/books/2" with authorization
+    And I send a DELETE request to "/books/1" with authorization
     Then the response status should be 200

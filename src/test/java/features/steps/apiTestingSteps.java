@@ -1,6 +1,5 @@
 package features.steps;
 
-import Utils.ApiHelper;
 import Utils.ConfigUtil;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -8,7 +7,6 @@ import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.cucumber.java.en.And;
 
-import static org.hamcrest.Matchers.equalTo;
 
 public class apiTestingSteps {
     private Response response;
@@ -26,33 +24,25 @@ public class apiTestingSteps {
         RestAssured.useRelaxedHTTPSValidation();
     }
 
-//    @Given("I send a POST request to {string} with email {string} and password {string}")
-//    public void sendPostLoginRequest(String endpoint, String email, String password) {
-//        response = RestAssured.given()
-//                .header("Content-Type", "application/json")
-//                .body("{\"email\":\"" + email + "\", \"password\":\"" + password + "\"}")
-//                .post("http://127.0.0.1:8000" + endpoint);
-//
-//        // Debugging logs
-//        System.out.println("Login Request URL: " + "http://127.0.0.1:8000" + endpoint);
-//        System.out.println("Login Response Status: " + response.statusCode());
-//        System.out.println("Login Response Body: " + response.getBody().asString());
-//    }
-
     @Given("I send a POST request to {string}")
     public void sendPostLoginRequest(String endpoint) {
+        String jsonBody = String.format(
+                "{\"email\":\"%s\", \"password\":\"%s\"}",
+                email,
+                password
+        );
+
         response = RestAssured.given()
                 .header("Content-Type", "application/json")
-                .body("{\"email\":\"" + email + "\", \"password\":\"" + password + "\"}")
-//                .post("http://127.0.0.1:8000" + endpoint);
+                .body(jsonBody)
                 .post(baseUrl + endpoint);
 
-        // Debugging logs
-//        System.out.println("Login Request URL: " + "http://127.0.0.1:8000" + endpoint);
-        System.out.println("Login Request URL: " + baseUrl + endpoint);
-        System.out.println("Login Response Status: " + response.statusCode());
-        System.out.println("Login Response Body: " + response.getBody().asString());
+        System.out.println("POST Request URL: " + baseUrl + endpoint);
+        System.out.println("Request Body: " + jsonBody);
+        System.out.println("Response Status: " + response.statusCode());
+        System.out.println("Response Body: " + response.getBody().asString());
     }
+
 
     @Then("the response status should be {int}")
     public void validateResponseStatus(int expectedStatus) {
@@ -126,6 +116,5 @@ public class apiTestingSteps {
     @Given("I send a GET request to {string}")
     public void i_send_a_get_request_to(String endpoint) {
         response = RestAssured.get(baseUrl + endpoint);
-//        response = RestAssured.get("http://127.0.0.1:8000" + endpoint);
     }
 }

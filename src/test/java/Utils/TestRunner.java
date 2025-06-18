@@ -2,10 +2,12 @@ package Utils;
 
 import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
-import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.AfterSuite;
+
+import java.io.IOException;
 
 @CucumberOptions(
-        features = "src/test/java/features", // Now picks all .feature files
+        features = "src/test/java/features",
         glue = "features.steps",
         plugin = {
                 "pretty",
@@ -16,4 +18,13 @@ import org.testng.annotations.BeforeSuite;
         monochrome = true
 )
 public class TestRunner extends AbstractTestNGCucumberTests {
+
+//        @AfterSuite
+//        public void generateAllureReport() throws IOException, InterruptedException {
+//                Process generate = Runtime.getRuntime().exec("allure generate --clean");
+//                generate.waitFor();
+//
+//                Process open = Runtime.getRuntime().exec("allure open target/allure-report");
+//                open.waitFor();
+//        }
 }
