@@ -19,12 +19,4 @@ import java.io.IOException;
 )
 public class TestRunner extends AbstractTestNGCucumberTests {
 
-//        @AfterSuite
-//        public void generateAllureReport() throws IOException, InterruptedException {
-//                Process generate = Runtime.getRuntime().exec("allure generate --clean");
-//                generate.waitFor();
-//
-//                Process open = Runtime.getRuntime().exec("allure open target/allure-report");
-//                open.waitFor();
-//        }
 }

@@ -70,6 +70,9 @@ mvn clean test -Dtest=runners.TestRunner
 ### 🟢 To start FastAPI manually
 ```bash
 uvicorn fastapi_app.main:app --reload
+git add .
+gti commit -m"new commit"
+git push -u origin main
 ```
 
 
